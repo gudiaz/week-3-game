@@ -3,24 +3,34 @@
 	<head>
 		<title>Hangman</title>
     	<meta name="viewport" content="width=device-width, initial-scale=1">
-    	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    	<link rel="stylesheet" type="text/css" href="assets/css/reset.css"
+    	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Kaushan+Script|Monofett">  	
 		<link rel="stylesheet" type="text/css" href="assets/css/hangman.css">
 	</head>
 
 	<body>
-	<center>
-		<h1>Hangman Game</h1>
-		<div id="game">
-			<p>Press any key to get started!</p>
-			<p>Wins<br /></p>
-			<p>Current Word<br /></p>
-			<p>Number of Guesses Remaining<br /></p>
-			<p>Letters Already Guessed<br /></p>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h1>Hangman Game</h1>
+					<h2>Theme: Things associated with boating</h2>
+					<div id="game">
+						<p>Wins<br /></p>
+						<p>Current Word<br />
+							<div class="letters">M_SK_D L_TT_RS</div>
+						</p>
+						<p>Letters Already Guessed<br /></p>
+						<p>Guesses Remaining<br /></p>	
+					</div>
+				</div>
+			</div>
+		</div>
 
-			<ul id="letters"></ul>
-			<p id="output" class="output"></p>		</div>
-	</center>
-	
-	<script src="assets/javascript/hangman.js"></script>
+		<audio>
+	    	<source src="assets/audio/sailing.wav" id="sailingm4a">
+	    </audio>
+	    
+		<script src="assets/javascript/hangman.js"></script>
 	</body>
 </html>

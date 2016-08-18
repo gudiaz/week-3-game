@@ -1,12 +1,14 @@
-	var words = ["anchor", "starburst", "cabin", "captain", "cleat", "barnacle", "lattitude", "outboard"];
-	var availableLetters = "abcdefghijklmnopqrstuvwxyz";
+	var words = ["ANCHOR", "STARBURST", "CABIN", "CAPTAIN", "CLEAT", "BARNACLE", "LATTITUDE", "LONGITUDE", "OUTBOARD"];
+	var availableLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	var maskedWord = "";
 	var currentWord = "";
 	var guessesRemaining = 0;
 	var lettersGuessed = "";
 	var maxGuesses = 12
 	var wins = 0;
-
+	var letters = document.getElementById("letters");
+	var output = document.getElementById("output");
+ 	var sailing = document.getElementById("sailingm4a");
 	
 	// This function starts a new game by initializing all the variables
 	function newGame() {
@@ -16,6 +18,7 @@
 		maskedWord = maskWord(currentWord);	  
 		guessesRemaining = maxGuesses;
 		console.log("Current Word: " + currentWord);
+
 		displayHTML();
 
 		// Listen for the keys the user types
@@ -41,13 +44,13 @@
 	// This function will update the HTML on the screen
 	function displayHTML() {
 		var html = "<p>Press any key to get started!</p>" +
-		"<p>Wins<br />" +  wins + "</p>" +
-		"<p>Current Word<br />" + maskedWord + "</p>" +
-		"<p>Guesses Remaining<br />" + guessesRemaining + "</p>" +
-		"<p>Letters Already Guessed<br />" + lettersGuessed + "</p>";
+		"<p>Wins: " +  wins + "</p>" +
+		"<p>Current Word<br /><div class=\"letters\">" + maskedWord + "</div></p>" +
+		"<p>Letters Already Guessed<br />" + lettersGuessed + "</p>" +
+		"<p>Guesses Remaining: " + guessesRemaining + "</p>"
 
 		document.querySelector("#game").innerHTML = html; 
-	}
+    }
 
 	// This function will substitute the underscore with the letter
 	function replaceLetter (i, c, originalString) {
@@ -91,9 +94,39 @@
 		return shown;
 	}
 
+	// This function will format the letters in the word to include spaces between them
+	function formatLetters(word) {
+		var result = "";
+		var currentLetter = "";
+
+	    for (var i=0; i < word.length; i++) {
+		    currentLetter = word[i];
+		    result = result + currentLetter + " ";
+		    console.log(result);
+		}
+
+		return result;
+	}
+
+	// This function will play a sound
+	function playSong(src) {
+	    this.sound = document.createElement("audio");
+	    this.sound.src = src;
+	    this.sound.setAttribute("preload", "auto");
+	    this.sound.setAttribute("controls", "none");
+	    this.sound.style.display = "none";
+	    document.body.appendChild(this.sound);
+	    this.play = function(){
+	        this.sound.play();
+	    }
+	    this.stop = function(){
+	        this.sound.pause();
+	    }
+	}
+
 	function getKeyPressed () {
 		document.onkeyup = function(event) {
-			var keyPressed = String.fromCharCode(event.keyCode).toLowerCase();
+			var keyPressed = String.fromCharCode(event.keyCode).toUpperCase();
 
 	 	   	// If the letter is not alphabetical, ignore
 	 	   	if (!isValidChar(keyPressed)) {
@@ -105,16 +138,19 @@
 	    		return;
 	    	}
 
-	    	lettersGuessed = lettersGuessed + keyPressed;
+	    	lettersGuessed = lettersGuessed + keyPressed.toUpperCase();
 	    	guessesRemaining--;
-		   	maskedWord = updateLetter(keyPressed, maskedWord, currentWord);		  
-			
+		   	maskedWord = updateLetter(keyPressed, maskedWord, currentWord);
+		   	console.log(maskedWord);
+		   	//maskedWord = formatLetters(maskedWord);  
+
 			//Update the screen
 			displayHTML();
-
+		
 			if (maskedWord == currentWord) {
 				wins++
 		    	alert("You Win!");
+				//playsong(sailing);
 		    	newGame();
 	    	} 
 	    	else if (guessesRemaining == 0) {
