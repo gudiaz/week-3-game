@@ -6,9 +6,10 @@
 	var lettersGuessed = "";
 	var maxGuesses = 12
 	var wins = 0;
+	var losses = 0;
 	var letters = document.getElementById("letters");
 	var output = document.getElementById("output");
- 	var sailing = document.getElementById("sailingm4a");
+	var audio = new Audio("./assets/audio/sailing.wav");
 	
 	// This function starts a new game by initializing all the variables
 	function newGame() {
@@ -45,6 +46,7 @@
 	function displayHTML() {
 		var html = "<p>Press any key to get started!</p>" +
 		"<p>Wins: " +  wins + "</p>" +
+		"<p>Losses: " +  losses + "</p>" +
 		"<p>Current Word<br /><div class=\"letters\">" + maskedWord + "</div></p>" +
 		"<p>Letters Already Guessed<br />" + lettersGuessed + "</p>" +
 		"<p>Guesses Remaining: " + guessesRemaining + "</p>"
@@ -94,36 +96,6 @@
 		return shown;
 	}
 
-	// This function will format the letters in the word to include spaces between them
-	function formatLetters(word) {
-		var result = "";
-		var currentLetter = "";
-
-	    for (var i=0; i < word.length; i++) {
-		    currentLetter = word[i];
-		    result = result + currentLetter + " ";
-		    console.log(result);
-		}
-
-		return result;
-	}
-
-	// This function will play a sound
-	function playSong(src) {
-	    this.sound = document.createElement("audio");
-	    this.sound.src = src;
-	    this.sound.setAttribute("preload", "auto");
-	    this.sound.setAttribute("controls", "none");
-	    this.sound.style.display = "none";
-	    document.body.appendChild(this.sound);
-	    this.play = function(){
-	        this.sound.play();
-	    }
-	    this.stop = function(){
-	        this.sound.pause();
-	    }
-	}
-
 	function getKeyPressed () {
 		document.onkeyup = function(event) {
 			var keyPressed = String.fromCharCode(event.keyCode).toUpperCase();
@@ -141,20 +113,19 @@
 	    	lettersGuessed = lettersGuessed + keyPressed.toUpperCase();
 	    	guessesRemaining--;
 		   	maskedWord = updateLetter(keyPressed, maskedWord, currentWord);
-		   	console.log(maskedWord);
-		   	//maskedWord = formatLetters(maskedWord);  
 
 			//Update the screen
 			displayHTML();
 		
 			if (maskedWord == currentWord) {
 				wins++
-		    	alert("You Win!");
-				//playsong(sailing);
+		    	audio.play();
+				alert("You won!!!")
 		    	newGame();
 	    	} 
 	    	else if (guessesRemaining == 0) {
-				alert("You Lose! The correct word was '" + currentWord + "'");
+				losses++
+				alert("You lost! The correct word was '" + currentWord + "'");
 				newGame();
 		    }
 		}
